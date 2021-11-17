@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/screens/dashboard.dart';
 import 'package:learnable/screens/signup.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
 import 'package:learnable/widgets/primary_button.dart';
@@ -11,6 +12,11 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _loginOnPressed() {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => const Dashboard()));
+    }
+
     void _signupOnPressed() {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => Signup()),
@@ -46,7 +52,7 @@ class Login extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: 166,
+                        width: 180,
                         child: Text('Welcome Back',
                             style: Theme.of(context)
                                 .textTheme
@@ -85,7 +91,7 @@ class Login extends StatelessWidget {
                                         color: Theme.of(context).primaryColor)))
                           ]),
                       const SizedBox(height: 16),
-                      PrimaryButton(label: 'LOG IN', onPressed: () {})
+                      PrimaryButton(label: 'LOG IN', onPressed: _loginOnPressed)
                     ],
                   ),
                 )
