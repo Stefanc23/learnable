@@ -1,30 +1,67 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/models/api_response.dart';
+import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/dashboard.dart';
 import 'package:learnable/screens/login.dart';
+import 'package:learnable/services/user_service.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
 import 'package:learnable/widgets/primary_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Signup extends StatelessWidget {
+class Signup extends StatefulWidget {
+  Signup({Key? key}) : super(key: key);
+
+  @override
+  State<Signup> createState() => _SignupState();
+}
+
+class _SignupState extends State<Signup> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController fullNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  Signup({Key? key}) : super(key: key);
+  bool loading = false;
+
+  void _registerUser() async {
+    ApiResponse response = await register(
+        fullNameController.text, emailController.text, passwordController.text);
+    if (response.error == null) {
+      _saveAndRedirectToHome(response.data as User);
+    } else {
+      setState(() {
+        loading = !loading;
+      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${response.error}')));
+    }
+  }
+
+  void _loginOnPressed() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => Login()),
+    );
+  }
+
+  void _signupOnPressed() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        loading = !loading;
+        _registerUser();
+      });
+    }
+  }
+
+  void _saveAndRedirectToHome(User user) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString('token', user.token ?? '');
+    await pref.setInt('userId', user.id ?? 0);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Dashboard()), (route) => false);
+  }
 
   @override
   Widget build(BuildContext context) {
-    void _loginOnPressed() {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Login()),
-      );
-    }
-
-    void _signupOnPressed() {
-      Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => Dashboard()),
-      );
-    }
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SizedBox(
@@ -62,22 +99,35 @@ class Signup extends StatelessWidget {
                                 .copyWith(color: Colors.white)),
                       ),
                       const SizedBox(height: 73),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            CustomTextFormField(
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CustomTextFormField(
                                 controller: fullNameController,
-                                hintText: 'Full Name'),
-                            const SizedBox(height: 32),
-                            CustomTextFormField(
-                                controller: emailController, hintText: 'Email'),
-                            const SizedBox(height: 32),
-                            CustomTextFormField(
-                                controller: emailController,
-                                hintText: 'Password',
-                                obscureText: true),
-                          ]),
+                                hintText: 'Full Name',
+                                validator: (val) =>
+                                    val!.isEmpty ? 'Invalid name' : null,
+                              ),
+                              const SizedBox(height: 32),
+                              CustomTextFormField(
+                                  controller: emailController,
+                                  validator: (val) => val!.isEmpty
+                                      ? 'Invalid email address'
+                                      : null,
+                                  hintText: 'Email'),
+                              const SizedBox(height: 32),
+                              CustomTextFormField(
+                                  controller: emailController,
+                                  hintText: 'Password',
+                                  validator: (val) => val!.length < 6
+                                      ? 'Required at least 6 chars'
+                                      : null,
+                                  obscureText: true),
+                            ]),
+                      ),
                       const SizedBox(height: 64),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,

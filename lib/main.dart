@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/screens/loading.dart';
 import 'package:learnable/utils/learnable_theme.dart';
-import 'package:learnable/screens/landing.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Learnable',
       theme: learnableTheme,
-      home: const Landing(),
+      home: const Loading(),
       debugShowCheckedModeBanner: false,
     );
   }

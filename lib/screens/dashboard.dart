@@ -3,7 +3,10 @@ import 'package:learnable/widgets/class_card.dart';
 import 'package:learnable/widgets/todo_card.dart';
 
 class Dashboard extends StatelessWidget {
-  const Dashboard({Key? key}) : super(key: key);
+  Dashboard({Key? key}) : super(key: key);
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +63,7 @@ class Dashboard extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            Container(
+            SizedBox(
               width: double.infinity,
               height: 150,
               child: ListView(
@@ -92,12 +95,11 @@ class Dashboard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
-                        Container(
-                            child: Text('To-do',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2!
-                                    .copyWith(color: Colors.black))),
+                        Text('To-do',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: Colors.black)),
                         const Icon(Icons.filter_list_sharp, size: 28),
                       ],
                     ),

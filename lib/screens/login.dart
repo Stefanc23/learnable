@@ -1,28 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/models/api_response.dart';
+import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/dashboard.dart';
 import 'package:learnable/screens/signup.dart';
+import 'package:learnable/services/user_service.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
 import 'package:learnable/widgets/primary_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Login extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
+class Login extends StatefulWidget {
   Login({Key? key}) : super(key: key);
 
   @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  bool loading = false;
+
+  void _loginUser() async {
+    ApiResponse response =
+        await login(_emailController.text, _passwordController.text);
+    if (response.error == null) {
+      _saveAndRedirectToHome(response.data as User);
+    } else {
+      setState(() {
+        loading = false;
+      });
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('${response.error}')));
+    }
+  }
+
+  void _loginOnPressed() {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        loading = true;
+        _loginUser();
+      });
+    }
+  }
+
+  void _signupOnPressed() {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => Signup()),
+    );
+  }
+
+  void _saveAndRedirectToHome(User user) async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    await pref.setString('token', user.token ?? '');
+    await pref.setInt('userId', user.id ?? 0);
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(builder: (context) => Dashboard()), (route) => false);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    void _loginOnPressed() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Dashboard()));
-    }
-
-    void _signupOnPressed() {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => Signup()),
-      );
-    }
-
     return Scaffold(
         resizeToAvoidBottomInset: false,
         body: SizedBox(
@@ -60,24 +98,38 @@ class Login extends StatelessWidget {
                                 .copyWith(color: Colors.white)),
                       ),
                       const SizedBox(height: 97),
-                      Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            CustomTextFormField(
-                                controller: emailController, hintText: 'Email'),
-                            const SizedBox(height: 32),
-                            CustomTextFormField(
-                                controller: emailController,
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              CustomTextFormField(
+                                controller: _emailController,
+                                hintText: 'Email',
+                                validator: (val) => val!.isEmpty
+                                    ? 'Invalid email address'
+                                    : null,
+                                keyboardType: TextInputType.emailAddress,
+                              ),
+                              const SizedBox(height: 32),
+                              CustomTextFormField(
+                                controller: _passwordController,
                                 hintText: 'Password',
-                                obscureText: true),
-                            const SizedBox(height: 24),
-                            GestureDetector(
-                                onTap: () {},
-                                child: Text('Forgot password?',
-                                    style: TextStyle(
-                                        color: Theme.of(context).primaryColor)))
-                          ]),
+                                validator: (val) => val!.length < 6
+                                    ? 'Required at least 6 chars'
+                                    : null,
+                                obscureText: true,
+                              ),
+                              const SizedBox(height: 24),
+                              GestureDetector(
+                                  onTap: () {},
+                                  child: Text('Forgot password?',
+                                      style: TextStyle(
+                                          color:
+                                              Theme.of(context).primaryColor)))
+                            ]),
+                      ),
                       const SizedBox(height: 64),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.center,
