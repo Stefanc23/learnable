@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/screens/profile.dart';
 import 'package:learnable/widgets/class_card.dart';
 import 'package:learnable/widgets/todo_card.dart';
 
@@ -7,6 +8,11 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    void _profileOnTap() {
+      Navigator.push(
+          context, MaterialPageRoute(builder: (context) => Profile()));
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -38,9 +44,9 @@ class Dashboard extends StatelessWidget {
           ),
           actions: [
             Padding(
-              padding: const EdgeInsets.only(bottom: 130, right: 16),
+              padding: const EdgeInsets.only(top: 8, bottom: 130, right: 16),
               child: GestureDetector(
-                onTap: () {},
+                onTap: _profileOnTap,
                 child: const CircleAvatar(
                   radius: 24,
                   backgroundImage: AssetImage('assets/icons/icon-avatar.png'),
@@ -61,6 +67,7 @@ class Dashboard extends StatelessWidget {
         child: Column(
           children: [
             Container(
+              margin: EdgeInsets.only(top: 4),
               width: double.infinity,
               height: 150,
               child: ListView(
