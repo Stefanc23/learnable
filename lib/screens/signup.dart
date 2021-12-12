@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:learnable/models/api_response.dart';
 import 'package:learnable/models/user.dart';
-import 'package:learnable/screens/dashboard.dart';
 import 'package:learnable/screens/login.dart';
 import 'package:learnable/services/user_service.dart';
+import 'package:learnable/utils/save_and_redirect_to_dashboard.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
+import 'package:learnable/widgets/loading_overlay.dart';
 import 'package:learnable/widgets/primary_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
-  Signup({Key? key}) : super(key: key);
+  const Signup({Key? key}) : super(key: key);
 
   @override
   State<Signup> createState() => _SignupState();
@@ -17,17 +17,17 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController fullNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   bool loading = false;
 
   void _registerUser() async {
-    ApiResponse response = await register(
-        fullNameController.text, emailController.text, passwordController.text);
+    ApiResponse response = await register(_fullNameController.text,
+        _emailController.text, _passwordController.text);
     if (response.error == null) {
-      _saveAndRedirectToHome(response.data as User);
+      saveAndRedirectToDashboard(response.data as User, context);
     } else {
       setState(() {
         loading = !loading;
@@ -39,7 +39,7 @@ class _SignupState extends State<Signup> {
 
   void _loginOnPressed() {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => Login()),
+      MaterialPageRoute(builder: (context) => const Login()),
     );
   }
 
@@ -50,14 +50,6 @@ class _SignupState extends State<Signup> {
         _registerUser();
       });
     }
-  }
-
-  void _saveAndRedirectToHome(User user) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString('token', user.token ?? '');
-    await pref.setInt('userId', user.id ?? 0);
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => Dashboard()), (route) => false);
   }
 
   @override
@@ -106,21 +98,21 @@ class _SignupState extends State<Signup> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
                               CustomTextFormField(
-                                controller: fullNameController,
+                                controller: _fullNameController,
                                 hintText: 'Full Name',
                                 validator: (val) =>
                                     val!.isEmpty ? 'Invalid name' : null,
                               ),
                               const SizedBox(height: 32),
                               CustomTextFormField(
-                                  controller: emailController,
+                                  controller: _emailController,
                                   validator: (val) => val!.isEmpty
                                       ? 'Invalid email address'
                                       : null,
                                   hintText: 'Email'),
                               const SizedBox(height: 32),
                               CustomTextFormField(
-                                  controller: emailController,
+                                  controller: _passwordController,
                                   hintText: 'Password',
                                   validator: (val) => val!.length < 6
                                       ? 'Required at least 6 chars'
@@ -141,11 +133,15 @@ class _SignupState extends State<Signup> {
                                         color: Theme.of(context).primaryColor)))
                           ]),
                       const SizedBox(height: 16),
-                      PrimaryButton(
-                          label: 'SIGN UP', onPressed: _signupOnPressed)
+                      Hero(
+                        tag: 'signupButton',
+                        child: PrimaryButton(
+                            label: 'SIGN UP', onPressed: _signupOnPressed),
+                      )
                     ],
                   ),
-                )
+                ),
+                if (loading) const LoadingOverlay()
               ],
             )));
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learnable/constants.dart';
 import 'package:learnable/models/api_response.dart';
+import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/dashboard.dart';
 import 'package:learnable/screens/landing.dart';
 import 'package:learnable/services/user_service.dart';
@@ -15,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   void _loadUserInfo() async {
     await Future.delayed(const Duration(seconds: 2), () async {
-      String? token = await getToken();
+      String? token = getToken();
       if (token == '') {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const Landing()),
@@ -24,7 +25,8 @@ class _SplashScreenState extends State<SplashScreen> {
         ApiResponse response = await getUserDetail();
         if (response.error == null) {
           Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => Dashboard()),
+              MaterialPageRoute(
+                  builder: (context) => Dashboard(user: response.data as User)),
               (route) => false);
         } else if (response.error == unauthorized) {
           Navigator.of(context).pushAndRemoveUntil(

@@ -26,7 +26,7 @@ class AuthController extends Controller
             $credentials = request(['email', 'password']);
             if (!Auth::attempt($credentials)) {
                 return response([
-                    'message' => 'Unauthorized.',
+                    'message' => 'Invalid credentials.',
                 ], 401);
             }
 

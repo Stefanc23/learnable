@@ -13,13 +13,13 @@ class Landing extends StatelessWidget {
   Widget build(BuildContext context) {
     void _loginOnPressed() {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => Login()),
+        MaterialPageRoute(builder: (context) => const Login()),
       );
     }
 
     void _signupOnPressed() {
       Navigator.of(context).push(
-        MaterialPageRoute(builder: (context) => Signup()),
+        MaterialPageRoute(builder: (context) => const Signup()),
       );
     }
 
@@ -52,9 +52,17 @@ class Landing extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  PrimaryButton(label: 'LOG IN', onPressed: _loginOnPressed),
+                  Hero(
+                    tag: 'loginButton',
+                    child: PrimaryButton(
+                        label: 'LOG IN', onPressed: _loginOnPressed),
+                  ),
                   const SizedBox(height: 24),
-                  SecondaryButton(label: 'SIGN UP', onPressed: _signupOnPressed)
+                  Hero(
+                    tag: 'signupButton',
+                    child: SecondaryButton(
+                        label: 'SIGN UP', onPressed: _signupOnPressed),
+                  )
                 ]),
           )
         ]),

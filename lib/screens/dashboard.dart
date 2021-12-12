@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/profile.dart';
 import 'package:learnable/widgets/class_card.dart';
 import 'package:learnable/widgets/todo_card.dart';
 
-class Dashboard extends StatelessWidget {
-  Dashboard({Key? key}) : super(key: key);
+class Dashboard extends StatefulWidget {
+  final User user;
+  const Dashboard({Key? key, required this.user}) : super(key: key);
 
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -13,7 +20,7 @@ class Dashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     void _profileOnTap() {
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => Profile()));
+          context, MaterialPageRoute(builder: (context) => const Profile()));
     }
 
     return Scaffold(
@@ -24,7 +31,8 @@ class Dashboard extends StatelessWidget {
           automaticallyImplyLeading: false,
           titleSpacing: 0,
           title: Padding(
-            padding: const EdgeInsets.only(left: 16, bottom: 16),
+            padding: EdgeInsets.only(
+                left: 16, top: 69 - MediaQuery.of(context).padding.top),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +46,7 @@ class Dashboard extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  'Name',
+                  '${widget.user.name}',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
@@ -57,14 +65,15 @@ class Dashboard extends StatelessWidget {
               ),
             ),
           ],
-          toolbarHeight: 194,
+          toolbarHeight: 194 + MediaQuery.of(context).padding.top,
           elevation: 0,
           flexibleSpace:
               Image.asset('assets/images/bg-appbar.png', fit: BoxFit.cover),
           backgroundColor: Colors.transparent,
         ),
       ),
-      body: SizedBox(
+      body: Container(
+        margin: const EdgeInsets.only(top: 5),
         height: double.infinity,
         width: double.infinity,
         child: Column(

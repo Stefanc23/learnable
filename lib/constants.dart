@@ -7,6 +7,8 @@ const logoutURL = baseAuthURL + '/logout';
 const userURL = baseURL + '/user';
 
 // Errors
-const serverError = 'Server error';
-const unauthorized = 'Unauthorized';
-const somethingWentWrong = 'Something went wrong, try again';
+const serverError = 'Server error.';
+const unauthorized = 'Unauthorized.';
+const somethingWentWrong = 'Task failed successfully.';
+const invalidCredentials =
+    'Sorry, we don\'t recognize you. Please make sure you input correct email and password.';

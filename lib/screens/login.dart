@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:learnable/models/api_response.dart';
 import 'package:learnable/models/user.dart';
-import 'package:learnable/screens/dashboard.dart';
 import 'package:learnable/screens/signup.dart';
 import 'package:learnable/services/user_service.dart';
+import 'package:learnable/utils/save_and_redirect_to_dashboard.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
+import 'package:learnable/widgets/loading_overlay.dart';
 import 'package:learnable/widgets/primary_button.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
-  Login({Key? key}) : super(key: key);
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
     ApiResponse response =
         await login(_emailController.text, _passwordController.text);
     if (response.error == null) {
-      _saveAndRedirectToHome(response.data as User);
+      saveAndRedirectToDashboard(response.data as User, context);
     } else {
       setState(() {
         loading = false;
@@ -47,16 +47,8 @@ class _LoginState extends State<Login> {
 
   void _signupOnPressed() {
     Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => Signup()),
+      MaterialPageRoute(builder: (context) => const Signup()),
     );
-  }
-
-  void _saveAndRedirectToHome(User user) async {
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    await pref.setString('token', user.token ?? '');
-    await pref.setInt('userId', user.id ?? 0);
-    Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (context) => Dashboard()), (route) => false);
   }
 
   @override
@@ -143,10 +135,15 @@ class _LoginState extends State<Login> {
                                         color: Theme.of(context).primaryColor)))
                           ]),
                       const SizedBox(height: 16),
-                      PrimaryButton(label: 'LOG IN', onPressed: _loginOnPressed)
+                      Hero(
+                        tag: 'loginButton',
+                        child: PrimaryButton(
+                            label: 'LOG IN', onPressed: _loginOnPressed),
+                      ),
                     ],
                   ),
-                )
+                ),
+                if (loading) const LoadingOverlay()
               ],
             )));
   }
