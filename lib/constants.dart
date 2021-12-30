@@ -1,10 +1,11 @@
 // Strings
-const baseURL = "http://10.0.2.2:8000/api";
-const baseAuthURL = baseURL + '/auth';
+const baseURL = 'http://10.0.2.2:8000';
+const baseApiURL = baseURL + '/api';
+const baseAuthURL = baseApiURL + '/auth';
 const loginURL = baseAuthURL + '/login';
 const registerURL = baseAuthURL + '/register';
 const logoutURL = baseAuthURL + '/logout';
-const userURL = baseURL + '/user';
+const userURL = baseApiURL + '/user';
 
 // Errors
 const serverError = 'Server error.';

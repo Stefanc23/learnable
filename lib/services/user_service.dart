@@ -1,8 +1,10 @@
 import 'dart:convert';
 
 import 'package:get_storage/get_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:learnable/models/api_response.dart';
 import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'package:learnable/constants.dart';
 import 'package:learnable/models/user.dart';
 
@@ -116,38 +118,48 @@ Future<ApiResponse> getUserDetail() async {
 }
 
 // Update user
-// Future<ApiResponse> updateUser(String name, String? image) async {
-//   ApiResponse apiResponse = ApiResponse();
-//   try {
-//     String token = await getToken();
-//     final response = await http.put(Uri.parse(userURL),
-//         headers: {
-//           'Accept': 'application/json',
-//           'Authorization': 'Bearer $token'
-//         },
-//         body: image == null
-//             ? {
-//                 'name': name,
-//               }
-//             : {'name': name, 'image': image});
-//     // user can update his/her name or name and image
+Future<ApiResponse> updateUser(String name, String email, String phone,
+    String dob, String gender, XFile? image) async {
+  ApiResponse apiResponse = ApiResponse();
+  try {
+    String token = getToken();
+    var dio = Dio();
+    var formData = FormData.fromMap(image == null
+        ? {
+            'name': name,
+            'email': email,
+            'phone_number': phone,
+            'date_of_birth': dob,
+            'gender': gender
+          }
+        : {
+            'name': name,
+            'email': email,
+            'phone_number': phone,
+            'date_of_birth': dob,
+            'gender': gender,
+            'profile': await MultipartFile.fromFile(image.path)
+          });
+    dio.options.headers['Accept'] = 'application/json';
+    dio.options.headers['Authorization'] = 'Bearer $token';
+    final response = await dio.post(userURL, data: formData);
 
-//     switch (response.statusCode) {
-//       case 200:
-//         apiResponse.data = jsonDecode(response.body)['message'];
-//         break;
-//       case 401:
-//         apiResponse.error = unauthorized;
-//         break;
-//       default:
-//         apiResponse.error = somethingWentWrong;
-//         break;
-//     }
-//   } catch (e) {
-//     apiResponse.error = serverError;
-//   }
-//   return apiResponse;
-// }
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = User.fromJson(response.data);
+        break;
+      case 401:
+        apiResponse.error = unauthorized;
+        break;
+      default:
+        apiResponse.error = somethingWentWrong;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+  return apiResponse;
+}
 
 // logout
 Future<ApiResponse> logout() async {
@@ -187,8 +199,3 @@ Future<ApiResponse> logout() async {
 
   return apiResponse;
 }
-
-// Get base64 encoded image
-// String? getStringImage(File? file) {
-//   if (file == null) return null ;
-//   return base64Encode(file.readAs

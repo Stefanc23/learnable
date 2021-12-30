@@ -35,7 +35,7 @@ class UserController extends Controller
             'name' => $attrs['name'],
             'email' => $attrs['email'],
             'phone_number' => $attrs['phone_number'],
-            'date_of_birth' =>  Carbon::createFromFormat('d/m/Y', $attrs['date_of_birth']),
+            'date_of_birth' =>  Carbon::createFromFormat('Y-m-d', $attrs['date_of_birth'])->format('Y-m-d'),
             'gender' => $attrs['gender']
         ]);
 

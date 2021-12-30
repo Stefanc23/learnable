@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/constants.dart';
 import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/profile.dart';
 import 'package:learnable/widgets/class_card.dart';
@@ -9,20 +10,34 @@ class Dashboard extends StatefulWidget {
   const Dashboard({Key? key, required this.user}) : super(key: key);
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  // ignore: no_logic_in_create_state
+  State<Dashboard> createState() => _DashboardState(user);
 }
 
 class _DashboardState extends State<Dashboard> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  User user;
+
+  _DashboardState(this.user);
+
+  void _updateUser(User updatedUser) {
+    setState(() {
+      user = updatedUser;
+    });
+  }
+
+  void _profileOnTap() {
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                Profile(user: user, updateUserDetails: _updateUser)));
+  }
+
   @override
   Widget build(BuildContext context) {
-    void _profileOnTap() {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const Profile()));
-    }
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -46,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  '${widget.user.name}',
+                  '${user.name}',
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
                       color: Colors.white, fontWeight: FontWeight.bold),
                 ),
@@ -58,9 +73,24 @@ class _DashboardState extends State<Dashboard> {
               padding: const EdgeInsets.only(top: 8, bottom: 130, right: 16),
               child: GestureDetector(
                 onTap: _profileOnTap,
-                child: const CircleAvatar(
+                child: CircleAvatar(
                   radius: 24,
-                  backgroundImage: AssetImage('assets/icons/icon-avatar.png'),
+                  backgroundImage: user.profileImage == ''
+                      ? const AssetImage('assets/icons/icon-avatar.png')
+                      : null,
+                  child: user.profileImage != ''
+                      ? Container(
+                          width: double.infinity,
+                          height: double.infinity,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                fit: BoxFit.fill,
+                                image: NetworkImage(
+                                    '$baseURL/${user.profileImage}')),
+                          ),
+                        )
+                      : null,
                 ),
               ),
             ),

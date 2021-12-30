@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
             'email' => 'stefano.wiryana@binus.ac.id',
             'password' => Hash::make('abcd1234'),
             'phone_number' => '08813373537',
-            'date_of_birth' => Carbon::createFromFormat('d/m/Y', '23/10/2001'),
+            'date_of_birth' => Carbon::createFromFormat('Y-m-d', '2001-10-23')->format('Y-m-d'),
             'gender' => 'Male'
         ]);
     }
