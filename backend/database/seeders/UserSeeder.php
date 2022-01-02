@@ -17,12 +17,21 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::create([
-            'name' => 'Stefano Christian Wiryana',
-            'email' => 'stefano.wiryana@binus.ac.id',
+            'name' => 'Instructor Tester',
+            'email' => 'instructor@learnable.com',
             'password' => Hash::make('abcd1234'),
-            'phone_number' => '08813373537',
+            'phone_number' => '081227477221',
             'date_of_birth' => Carbon::createFromFormat('Y-m-d', '2001-10-23')->format('Y-m-d'),
             'gender' => 'Male'
+        ]);
+
+        User::create([
+            'name' => 'Student Tester',
+            'email' => 'student@learnable.com',
+            'password' => Hash::make('abcd1234'),
+            'phone_number' => '081277532383',
+            'date_of_birth' => Carbon::createFromFormat('Y-m-d', '2001-10-22')->format('Y-m-d'),
+            'gender' => 'Female'
         ]);
     }
 }

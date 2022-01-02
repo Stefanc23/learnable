@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -14,7 +15,7 @@ class UserController extends Controller
     public function index()
     {
         return response([
-            'user' => Auth::user()
+            'user' => User::with('attendedClasses')->find(Auth::id())
         ], 200);
     }
 
@@ -53,7 +54,7 @@ class UserController extends Controller
 
         return response([
             'message' => 'User updated.',
-            'user' => auth()->user()
+            'user' => User::with('attendedClasses')->find(Auth::id())
         ], 200);
     }
 }

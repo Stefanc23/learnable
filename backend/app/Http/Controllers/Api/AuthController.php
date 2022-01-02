@@ -34,7 +34,7 @@ class AuthController extends Controller
             $user = User::where('email', $request->email)->first();
 
             return response([
-                'user' => $user,
+                'user' => User::with('attendedClasses')->find($user->id),
                 'token' => $user->createToken('secret')->plainTextToken
             ], 200);
         }
@@ -64,7 +64,7 @@ class AuthController extends Controller
             auth()->login($user);
 
             return response([
-                'user' => $user,
+                'user' => User::with('attendedClasses')->find($user->id),
                 'token' => $user->createToken('secret')->plainTextToken
             ], 200);
         }
