@@ -82,6 +82,7 @@ flutter:
     - family: Spectral
       fonts:
         - asset: assets/fonts/Spectral-Regular.ttf
+        - asset: assets/fonts/Spectral-ExtraLight.ttf
         - asset: assets/fonts/Spectral-Light.ttf
         - asset: assets/fonts/Spectral-Medium.ttf
     - family: Spartan

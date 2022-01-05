@@ -13,7 +13,7 @@ class ClassroomController extends Controller
 {
     public function index() {
         return response([
-            'attendedClasses' => Auth::user()->attendedClasses
+            'attended_classes' => Auth::user()->attendedClasses
         ], 200);
     }
 

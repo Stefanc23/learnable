@@ -6,6 +6,7 @@ const loginURL = baseAuthURL + '/login';
 const registerURL = baseAuthURL + '/register';
 const logoutURL = baseAuthURL + '/logout';
 const userURL = baseApiURL + '/user';
+const classroomURL = baseApiURL + '/classroom';
 
 // Errors
 const serverError = 'Server error.';

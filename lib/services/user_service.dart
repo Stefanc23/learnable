@@ -49,6 +49,7 @@ Future<ApiResponse> login(String email, String password) async {
         break;
     }
   } catch (e) {
+    print('error $e');
     apiResponse.error = serverError;
   }
 

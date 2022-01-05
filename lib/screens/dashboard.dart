@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:learnable/constants.dart';
 import 'package:learnable/models/user.dart';
+import 'package:learnable/screens/classroom_menu.dart';
 import 'package:learnable/screens/profile.dart';
 import 'package:learnable/widgets/class_card.dart';
 import 'package:learnable/widgets/todo_card.dart';
@@ -38,6 +39,35 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    var classes = List.generate(
+        user.classrooms!.length + 2,
+        (i) => i == 0
+            ? const SizedBox(width: 36)
+            : i == user.classrooms!.length + 1
+                ? Container(
+                    margin: const EdgeInsets.only(right: 16),
+                    child: ClassCard(
+                      isLastCard: true,
+                      onTap: () {},
+                    ),
+                  )
+                : Container(
+                    margin: const EdgeInsets.only(right: 16),
+                    child: ClassCard(
+                      className: user.classrooms![i - 1].name as String,
+                      classThumbnail:
+                          user.classrooms![i - 1].bannerImage as String,
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ClassroomMenu(
+                                    user: user,
+                                    classroom: user.classrooms![i - 1])));
+                      },
+                    ),
+                  ));
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: PreferredSize(
@@ -102,88 +132,76 @@ class _DashboardState extends State<Dashboard> {
           backgroundColor: Colors.transparent,
         ),
       ),
-      body: Container(
-        margin: const EdgeInsets.only(top: 5),
-        height: double.infinity,
-        width: double.infinity,
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              height: 150,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  const SizedBox(width: 36),
-                  Container(
-                    margin: const EdgeInsets.only(right: 16),
-                    child: const ClassCard(),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 16),
-                    child: const ClassCard(),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.only(right: 16),
-                    child: const ClassCard(isLastCard: true),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 24),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Text('To-do',
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .copyWith(color: Colors.black)),
-                        const Icon(Icons.filter_list_sharp, size: 28),
-                      ],
-                    ),
-                    const SizedBox(height: 16),
-                    Expanded(
-                      child: ListView(
-                        children: [
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 16),
-                            child: const TodoCard(
-                              type: 'Assignment',
-                              className: 'Class Name',
-                              datetime: '21 October 2021 (23.59)',
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 16),
-                            child: const TodoCard(
-                              type: 'Meet',
-                              className: 'Class Name',
-                              datetime: '23 October 2021 (14.00)',
-                            ),
-                          ),
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 16),
-                            child: const TodoCard(
-                              type: 'Quiz',
-                              className: 'Class Name',
-                              datetime: '23 October 2021 (23.59)',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+      body: Padding(
+        padding: EdgeInsets.only(top: 69 - MediaQuery.of(context).padding.top),
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: Column(
+            children: [
+              SizedBox(
+                width: double.infinity,
+                height: 150,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: classes,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 24),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 26),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          Text('To-do',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(color: Colors.black)),
+                          const Icon(Icons.filter_list_sharp, size: 28),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Expanded(
+                        child: ListView(
+                          children: [
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 16),
+                              child: const TodoCard(
+                                type: 'Assignment',
+                                className: 'Class Name',
+                                datetime: '21 October 2021 (23.59)',
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 16),
+                              child: const TodoCard(
+                                type: 'Meet',
+                                className: 'Class Name',
+                                datetime: '23 October 2021 (14.00)',
+                              ),
+                            ),
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 16),
+                              child: const TodoCard(
+                                type: 'Quiz',
+                                className: 'Class Name',
+                                datetime: '23 October 2021 (23.59)',
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
