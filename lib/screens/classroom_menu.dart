@@ -106,12 +106,15 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
                     children: [
                       Text('People',
                           style: Theme.of(context).textTheme.overline),
-                      Row(children: [
-                        Text('Invite',
-                            style: Theme.of(context).textTheme.overline),
-                        const SizedBox(width: 8),
-                        const Icon(Icons.add),
-                      ])
+                      TextButton.icon(
+                        onPressed: () {
+                          // Respond to button press
+                        },
+                        icon:
+                            Icon(Icons.add, size: 18, color: Color(0xFF000000)),
+                        label: Text('Invite',
+                            style: Theme.of(context).textTheme.button),
+                      )
                     ]),
               ),
               const SizedBox(height: 17),
