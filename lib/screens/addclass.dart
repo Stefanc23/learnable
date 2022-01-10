@@ -1,18 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/screens/createclass.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
 
-class Addclass extends StatelessWidget {
+class AddClass extends StatefulWidget {
+  final Function() updateUserDetails;
+
+  AddClass({Key? key, required this.updateUserDetails}) : super(key: key);
+
+  @override
+  State<AddClass> createState() => _AddClassState();
+}
+
+class _AddClassState extends State<AddClass> {
   final TextEditingController classIDController = TextEditingController();
+
   final TextEditingController inviteCodeController = TextEditingController();
-  Addclass({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    void _backOnTap() {
+      Navigator.pop(context);
+    }
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: GestureDetector(
-              onTap: () {}, child: const Icon(Icons.arrow_back_sharp)),
+              onTap: _backOnTap, child: const Icon(Icons.arrow_back_sharp)),
           title: const Center(child: Text("Join Class")),
           centerTitle: true,
           actions: [SizedBox(width: 48)],
@@ -41,7 +55,16 @@ class Addclass extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  OutlinedButton(onPressed: () {}, child: Text('CREATE CLASS')),
+                  OutlinedButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateClass(
+                                    updateUserDetails:
+                                        widget.updateUserDetails)));
+                      },
+                      child: Text('CREATE CLASS')),
                   SizedBox(width: 16),
                   ElevatedButton(onPressed: () {}, child: Text('JOIN CLASS'))
                 ],

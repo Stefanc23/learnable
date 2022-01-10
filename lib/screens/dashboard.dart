@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:learnable/constants.dart';
+import 'package:learnable/models/api_response.dart';
 import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/classroom_menu.dart';
+import 'package:learnable/screens/createclass.dart';
 import 'package:learnable/screens/profile.dart';
+import 'package:learnable/services/user_service.dart';
 import 'package:learnable/widgets/class_card.dart';
 import 'package:learnable/widgets/todo_card.dart';
 
@@ -23,10 +26,13 @@ class _DashboardState extends State<Dashboard> {
 
   _DashboardState(this.user);
 
-  void _updateUser(User updatedUser) {
-    setState(() {
-      user = updatedUser;
-    });
+  void _updateUser() async {
+    ApiResponse response = await getUserDetail();
+    if (response.error == null) {
+      setState(() {
+        user = response.data as User;
+      });
+    }
   }
 
   void _profileOnTap() {
@@ -48,7 +54,13 @@ class _DashboardState extends State<Dashboard> {
                     margin: const EdgeInsets.only(right: 16),
                     child: ClassCard(
                       isLastCard: true,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => CreateClass(
+                                    updateUserDetails: _updateUser)));
+                      },
                     ),
                   )
                 : Container(

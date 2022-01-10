@@ -33,7 +33,7 @@ class User {
           id: attendedClasses[i]['id'],
           name: attendedClasses[i]['name'],
           inviteCode: attendedClasses[i]['invite_code'],
-          bannerImage: attendedClasses[i]['banner_image_file_path'],
+          bannerImage: attendedClasses[i]['banner_image_file_path'] ?? '',
           role: attendedClasses[i]['pivot']['role']));
     }
     User user = User(

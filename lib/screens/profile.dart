@@ -16,7 +16,7 @@ import 'package:learnable/widgets/tertiary_button.dart';
 
 class Profile extends StatefulWidget {
   final User user;
-  final Function(User user) updateUserDetails;
+  final Function() updateUserDetails;
   const Profile({Key? key, required this.user, required this.updateUserDetails})
       : super(key: key);
 
@@ -74,7 +74,7 @@ class _ProfileState extends State<Profile> {
         loading = !loading;
       });
       if (response.error == null) {
-        widget.updateUserDetails(response.data as User);
+        widget.updateUserDetails();
         ScaffoldMessenger.of(context)
             .showSnackBar(const SnackBar(content: Text('Profile saved.')));
       } else {
