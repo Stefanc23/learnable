@@ -43,6 +43,36 @@ Future<ApiResponse> createClass(
   return apiResponse;
 }
 
+Future<ApiResponse> joinClass(String id, String inviteCode) async {
+  ApiResponse apiResponse = ApiResponse();
+  try {
+    String token = getToken();
+    var dio = Dio();
+    var formData = FormData.fromMap({
+      'classroom_id': id,
+      'invite_code': inviteCode,
+    });
+    dio.options.headers['Accept'] = 'application/json';
+    dio.options.headers['Authorization'] = 'Bearer $token';
+    final response = await dio.post('$classroomURL/join', data: formData);
+
+    switch (response.statusCode) {
+      case 200:
+        apiResponse.data = Classroom.fromJson(response.data);
+        break;
+      case 401:
+        apiResponse.error = unauthorized;
+        break;
+      default:
+        apiResponse.error = somethingWentWrong;
+        break;
+    }
+  } catch (e) {
+    apiResponse.error = serverError;
+  }
+  return apiResponse;
+}
+
 Future<ApiResponse> getAttendees(String classroomId) async {
   ApiResponse apiResponse = ApiResponse();
   try {
