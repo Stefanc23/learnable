@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
     <!-- Template Main CSS File -->
-    <link href="css/landing.css" rel="stylesheet">
+    <link href="{{ asset('assets/css/landing.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -39,7 +39,7 @@
 
             <div class="logo">
                 <a class="navbar-brand d-flex align-items-center" href="#hero">
-                    <img src="img/logo.png" alt="" class="d-inline-block align-text-top">
+                    <img src="{{ asset('assets/img/logo.png') }}" alt="" class="d-inline-block align-text-top">
                     <h1>Learnable</h1>
                 </a>
             </div>
@@ -79,7 +79,7 @@
                 </div>
                 <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
                     data-aos="fade-up">
-                    <img src="img/hero.png" class="img-fluid" alt="">
+                    <img src="{{ asset('assets/img/hero.png') }}" class="img-fluid" alt="">
                 </div>
             </div>
         </div>
@@ -141,7 +141,7 @@
                     </div>
                     <div class="image col-xl-5 d-flex align-items-stretch justify-content-center order-1 order-lg-2"
                         data-aos="fade-left" data-aos-delay="100">
-                        <img src="img/features.svg" class="img-fluid" alt="">
+                        <img src="{{ asset('assets/img/features.svg') }}" class="img-fluid" alt="">
                     </div>
                 </div>
 
@@ -164,7 +164,7 @@
 
                         <div class="swiper-slide">
                             <div class="testimonial-item">
-                                <img src="img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+                                <img src="{{ asset('assets/img/testimonials/testimonials-1.jpg') }}" class="testimonial-img" alt="">
                                 <h3>Saul Goodman</h3>
                                 <h4>Ceo &amp; Founder</h4>
                                 <p>
@@ -179,7 +179,7 @@
 
                         <div class="swiper-slide">
                             <div class="testimonial-item">
-                                <img src="img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+                                <img src="{{ asset('assets/img/testimonials/testimonials-2.jpg') }}" class="testimonial-img" alt="">
                                 <h3>Sara Wilsson</h3>
                                 <h4>Designer</h4>
                                 <p>
@@ -194,7 +194,7 @@
 
                         <div class="swiper-slide">
                             <div class="testimonial-item">
-                                <img src="img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+                                <img src="{{ asset('assets/img/testimonials/testimonials-3.jpg') }}" class="testimonial-img" alt="">
                                 <h3>Jena Karlis</h3>
                                 <h4>Store Owner</h4>
                                 <p>
@@ -209,7 +209,7 @@
 
                         <div class="swiper-slide">
                             <div class="testimonial-item">
-                                <img src="img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+                                <img src="{{ asset('assets/img/testimonials/testimonials-4.jpg') }}" class="testimonial-img" alt="">
                                 <h3>Matt Brandon</h3>
                                 <h4>Freelancer</h4>
                                 <p>
@@ -224,7 +224,7 @@
 
                         <div class="swiper-slide">
                             <div class="testimonial-item">
-                                <img src="img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+                                <img src="{{ asset('assets/img/testimonials/testimonials-5.jpg') }}" class="testimonial-img" alt="">
                                 <h3>John Larson</h3>
                                 <h4>Entrepreneur</h4>
                                 <p>
@@ -487,6 +487,6 @@
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="js/landing.js"></script>
+    <script src="{{ asset('assets/js/landing.js') }}"></script>
 
 </html>
