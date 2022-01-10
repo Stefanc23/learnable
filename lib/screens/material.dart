@@ -2,19 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:learnable/widgets/materials_card.dart';
 
 class MaterialScreen extends StatelessWidget {
-  const MaterialScreen({Key? key}) : super(key: key);
+  final String className;
+
+  const MaterialScreen({Key? key, required this.className}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    void _backOnTap() {
+      Navigator.pop(context);
+    }
+
     return Scaffold(
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           leading: GestureDetector(
-              onTap: () {}, child: const Icon(Icons.arrow_back_sharp)),
+              onTap: _backOnTap, child: const Icon(Icons.arrow_back_sharp)),
           title: Align(
               alignment: Alignment.topRight,
               child: Text(
-                'Class Name',
+                className,
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1!

@@ -3,6 +3,8 @@ import 'package:learnable/constants.dart';
 import 'package:learnable/models/api_response.dart';
 import 'package:learnable/models/classroom.dart';
 import 'package:learnable/models/user.dart';
+import 'package:learnable/screens/assignment.dart';
+import 'package:learnable/screens/material.dart';
 import 'package:learnable/services/classroom_service.dart';
 
 class ClassroomMenu extends StatefulWidget {
@@ -182,7 +184,13 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
                       MenuCard(
                           icon: Icons.backpack,
                           label: 'Assignment',
-                          onTap: () {}),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Assignment(
+                                        className: classroom.name as String)));
+                          }),
                       MenuCard(
                           icon: Icons.voice_chat, label: 'Meet', onTap: () {}),
                       MenuCard(icon: Icons.quiz, label: 'Quiz', onTap: () {}),
@@ -191,7 +199,13 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
                       MenuCard(
                           icon: Icons.library_books,
                           label: 'Materials',
-                          onTap: () {}),
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MaterialScreen(
+                                        className: classroom.name as String)));
+                          }),
                       MenuCard(
                           icon: Icons.message, label: 'Forum', onTap: () {}),
                     ],
