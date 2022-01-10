@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AssignCard extends StatelessWidget {
-  final String assignName;
-  final String duedatetime;
+class MaterialCard extends StatelessWidget {
+  final String materialName; //MaterialTopic
 
-  const AssignCard({
+  const MaterialCard({
     Key? key,
-    required this.assignName,
-    required this.duedatetime,
+    required this.materialName,
   }) : super(key: key);
 
   @override
@@ -31,23 +29,13 @@ class AssignCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      assignName,
+                      materialName,
                       style: Theme.of(context).textTheme.subtitle1!,
-                    ),
-                    Text(
-                      duedatetime,
-                      style: Theme.of(context).textTheme.caption!,
                     ),
                   ],
                 ),
                 Row(children: [
-                  const Icon(Icons.history_sharp,
-                      color: Color(0xFF1F3C88), size: 24),
-                  const SizedBox(width: 16),
                   const Icon(Icons.download_sharp,
-                      color: Color(0xFF1F3C88), size: 24),
-                  const SizedBox(width: 16),
-                  const Icon(Icons.upload_sharp,
                       color: Color(0xFF1F3C88), size: 24),
                   const SizedBox(width: 4),
                 ]),
