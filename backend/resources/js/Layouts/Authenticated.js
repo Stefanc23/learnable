@@ -8,7 +8,7 @@ export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
     const layoutStyle = {
-        backgroundImage: "url('/img/bg-pattern.png')",
+        backgroundImage: "url('/images/bg-pattern.png')",
         backgroundSize: "cover",
     };
 
@@ -142,7 +142,7 @@ export default function Authenticated({ auth, header, children }) {
                                 href={route("logout")}
                                 as="button"
                             >
-                                Log Out
+                                <a href="/">Log Out</a>
                             </ResponsiveNavLink>
                         </div>
                     </div>
