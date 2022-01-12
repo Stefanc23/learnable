@@ -302,7 +302,7 @@ h1, h2, h3, h4, h5, h6 {
   position: relative;
   overflow: hidden;
   padding: 140px 0 100px 0;
-  background-image: url('../images/bg-hero.png');
+  background-image: url('../images/bg-pattern.png');
   background-repeat: no-repeat;
   background-size: cover;
 }

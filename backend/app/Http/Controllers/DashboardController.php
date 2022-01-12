@@ -45,7 +45,7 @@ class DashboardController extends Controller
             ]);
         }
 
-        return redirect()->route('dashboard')->with('message', 'Class created.');;
+        return redirect()->back()->with('message', 'Class created.');;
     }
 
     public function joinClassroom(Request $request)
@@ -65,7 +65,7 @@ class DashboardController extends Controller
                     'role' => 'Student'
                 ]);
 
-                return redirect()->route('dashboard')->with('message', 'Class joined.');;
+                return redirect()->back()->with('message', 'Class joined.');;
             }
         }
     }

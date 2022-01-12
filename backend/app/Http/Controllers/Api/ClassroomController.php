@@ -13,7 +13,7 @@ class ClassroomController extends Controller
 {
     public function index() {
         return response([
-            'attended_classes' => Auth::user()->attendedClasses
+            'attended_classes' => Auth::user()->attendedClasses->with('materials')
         ], 200);
     }
 
@@ -130,7 +130,11 @@ class ClassroomController extends Controller
             $classAttendee->delete();
         }
 
-        Classroom::find($request['classroom_id'])->delete();
+        $classroom =  Classroom::find($request['classroom_id']);
+        if (Storage::exists($classroom->banner_image_file_path)) {
+            Storage::delete($classroom->banner_image_file_path);
+        }
+        $classroom->delete();
 
         return response([
             'message' => 'Class deleted.',

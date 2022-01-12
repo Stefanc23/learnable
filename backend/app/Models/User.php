@@ -50,4 +50,14 @@ class User extends Authenticatable
     {
         return $this->belongstoMany(Classroom::class, 'class_attendees')->withPivot('role');
     }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
+
+    public function submissionHistories()
+    {
+        return $this->hasMany(SubmissionHistory::class);
+    }
 }

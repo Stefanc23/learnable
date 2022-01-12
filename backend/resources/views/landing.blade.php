@@ -13,10 +13,9 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-    <!-- Google Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-        rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Spartan:wght@100;200;300;400;500;600;700;800;900&family=Spectral:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap">
 
     <!-- Vendor CSS Files -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -28,7 +27,7 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
 
     <!-- Template Main CSS File -->
-    <link href="{{ asset('assets/css/landing.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/landing.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -46,10 +45,10 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="#features">Features</a></li>
+                    {{-- <li><a class="nav-link scrollto" href="#features">Features</a></li>
                     <li><a class="nav-link scrollto" href="#testimonials">Testimonials</a></li>
                     <li><a class="nav-link scrollto" href="#pricing">Pricing</a></li>
-                    <li><a class="nav-link scrollto" href="#faq">F.A.Q</a></li>
+                    <li><a class="nav-link scrollto" href="#faq">F.A.Q</a></li> --}}
                     @if (!Auth::check())
                         <li><a class="nav-link" href="/login">Login</a></li>
                         <li><a class="getstarted" href="/register">Sign Up</a></li>
@@ -79,14 +78,14 @@
                 </div>
                 <div class="col-lg-6 d-lg-flex flex-lg-column align-items-stretch order-1 order-lg-2 hero-img"
                     data-aos="fade-up">
-                    <img src="{{ asset('assets/img/hero.png') }}" class="img-fluid" alt="">
+                    <img src="{{ asset('img/hero.png') }}" class="img-fluid" alt="">
                 </div>
             </div>
         </div>
 
     </section><!-- End Hero -->
 
-    <main id="main">
+    {{-- <main id="main">
 
         <!-- ======= App Features Section ======= -->
         <section id="features" class="features">
@@ -473,7 +472,7 @@
                 &copy; Copyright <strong><span>Learnable</span></strong>. All Rights Reserved
             </div>
         </div>
-    </footer><!-- End Footer -->
+    </footer><!-- End Footer --> --}}
 
     <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
             class="bi bi-arrow-up-short"></i></a>
@@ -487,6 +486,6 @@
     <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="{{ asset('assets/js/landing.js') }}"></script>
+    <script src="{{ asset('js/landing.js') }}"></script>
 
 </html>

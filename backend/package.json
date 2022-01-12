@@ -9,7 +9,8 @@
         "prod": "npm run production",
         "production": "mix --production",
         "setup": "composer install && cp .env.example .env && php artisan key:generate && php artisan migrate && php artisan db:seed && php artisan storage:link && npm install && npm run dev",
-        "resetdb": "php artisan migrate:refresh && php artisan db:seed"
+        "resetdb": "php artisan migrate:refresh && php artisan db:seed",
+        "update": "npm install && npm run dev"
     },
     "devDependencies": {
         "@babel/preset-react": "^7.16.7",
@@ -42,6 +43,9 @@
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
         "@fortawesome/free-solid-svg-icons": "^5.15.4",
         "@fortawesome/react-fontawesome": "^0.1.16",
+        "moment": "^2.29.1",
+        "react-copy-to-clipboard": "^5.0.4",
+        "react-datetime": "^3.1.1",
         "tw-elements": "^1.0.0-alpha4"
     }
 }

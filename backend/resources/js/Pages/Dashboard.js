@@ -10,10 +10,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 export default function Dashboard({ user, ...props }) {
-    const [classrooms, setClassrooms] = useState(user.attended_classes);
+    const [classrooms] = useState(user.attended_classes);
     const [selectedBanner, setSelectedBanner] = useState(null);
 
-    const { data, setData, post, progress, processing, errors, reset } =
+    const { data, setData, post, processing, errors, reset } =
         useForm({
             name: "",
             classroom_id: "",
@@ -89,10 +89,10 @@ export default function Dashboard({ user, ...props }) {
                     </div>
                 </>
             ) : (
-                <div className="flex mt-8 max-w-7xl mx-auto">
+                <div className="flex max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                     {classrooms.map((classroom) => (
                         <div className="flex justify-center mr-8">
-                            <Link href={`/classroom/${classroom.id}`}>
+                            <Link href={`/classrooms/${classroom.id}`}>
                                 <div className="rounded-md shadow-sm bg-white w-64">
                                     <img
                                         className="rounded-t-lg object-cover h-48"
@@ -305,15 +305,6 @@ export default function Dashboard({ user, ...props }) {
                                 >
                                     Invite Code
                                 </FloatingLabelInput>
-
-                                {progress && (
-                                    <progress
-                                        value={progress.percentage}
-                                        max="100"
-                                    >
-                                        {progress.percentage}%
-                                    </progress>
-                                )}
                             </div>
                             <div className="modal-footer flex flex-shrink-0 flex-wrap items-center justify-between p-4 border-t border-gray-200 rounded-b-md">
                                 <button

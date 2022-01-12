@@ -10,6 +10,7 @@ export default function FloatingLabelInput({
     isFocused,
     className,
     children,
+    disabled
 }) {
     const [active, setActive] = useState(false);
     const input = useRef();
@@ -45,6 +46,7 @@ export default function FloatingLabelInput({
                 ref={input}
                 autoComplete={autoComplete}
                 required={required}
+                disabled={disabled}
                 onChange={(e) => handleActivation(e)}
             />
             <label

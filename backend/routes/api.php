@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\ClassroomController;
+use App\Http\Controllers\Api\MaterialController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,25 +18,28 @@ use App\Http\Controllers\Api\ClassroomController;
 |
 */
 
-Route::group(['prefix' => 'auth'], function() {
+Route::group(['prefix' => 'auth'], function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
-    Route::group(['middleware' => 'auth:sanctum'], function() {
+    Route::group(['middleware' => 'auth:sanctum'], function () {
         Route::post('logout', [AuthController::class, 'logout']);
         Route::post('logoutall', [AuthController::class, 'logoutAll']);
     });
 });
 
-Route::group(['middleware' => 'auth:sanctum'], function() {
+Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user', [UserController::class, 'index']);
     Route::post('/user', [UserController::class, 'update']);
     Route::get('/classroom', [ClassroomController::class, 'index']);
     Route::post('/classroom', [ClassroomController::class, 'create']);
-    Route::group(['prefix' => 'classroom'], function() {
+    Route::group(['prefix' => 'classroom'], function () {
         Route::post('/attendees', [ClassroomController::class, 'getAttendees']);
         Route::post('/join', [ClassroomController::class, 'join']);
         Route::post('/update', [ClassroomController::class, 'update']);
         Route::post('/dismiss', [ClassroomController::class, 'dismissStudent']);
         Route::post('/delete', [ClassroomController::class, 'delete']);
     });
+    Route::get('/materials', [MaterialController::class, 'index']);
+    Route::post('/materials', [MaterialController::class, 'store']);
+    Route::delete('materials/{material}', [MaterialController::class, 'delete']);
 });
