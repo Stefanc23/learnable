@@ -41,6 +41,7 @@ dependencies:
   intl: ^0.17.0
   firebase_core: ^1.11.0
   firebase_storage: ^10.2.5
+  dotted_border: ^2.0.0+2
 
 dev_dependencies:
   flutter_test:

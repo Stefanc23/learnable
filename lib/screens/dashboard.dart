@@ -24,7 +24,7 @@ class _DashboardState extends State<Dashboard> {
   final TextEditingController passwordController = TextEditingController();
 
   User user;
-  List<Classroom>? classrooms;
+  List<Classroom> classrooms = [];
   String profileImageUrl = '';
 
   _DashboardState(this.user);
@@ -43,11 +43,9 @@ class _DashboardState extends State<Dashboard> {
     if (response.error == null) {
       setState(() {
         user = response.data as User;
+        classrooms = (response.data as User).classrooms as List<Classroom>;
       });
       if (user.profileImage != '') _getProfileImageUrl();
-      setState(() {
-        classrooms = user.classrooms;
-      });
     }
   }
 
@@ -63,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     if (user.profileImage != '') _getProfileImageUrl();
     setState(() {
-      classrooms = user.classrooms;
+      classrooms = user.classrooms as List<Classroom>;
     });
     super.initState();
   }
