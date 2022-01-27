@@ -24,7 +24,7 @@ class _DashboardState extends State<Dashboard> {
   final TextEditingController passwordController = TextEditingController();
 
   User user;
-  List<Classroom>? classrooms;
+  List<Classroom> classrooms = [];
   String profileImageUrl = '';
 
   _DashboardState(this.user);
@@ -43,11 +43,9 @@ class _DashboardState extends State<Dashboard> {
     if (response.error == null) {
       setState(() {
         user = response.data as User;
+        classrooms = (response.data as User).classrooms as List<Classroom>;
       });
       if (user.profileImage != '') _getProfileImageUrl();
-      setState(() {
-        classrooms = user.classrooms;
-      });
     }
   }
 
@@ -63,7 +61,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     if (user.profileImage != '') _getProfileImageUrl();
     setState(() {
-      classrooms = user.classrooms;
+      classrooms = user.classrooms as List<Classroom>;
     });
     super.initState();
   }
@@ -71,10 +69,10 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     var classes = List.generate(
-        classrooms!.length + 2,
+        classrooms.length + 2,
         (i) => i == 0
             ? const SizedBox(width: 36)
-            : i == classrooms!.length + 1
+            : i == classrooms.length + 1
                 ? Container(
                     margin: const EdgeInsets.only(right: 16),
                     child: ClassCard(
@@ -91,8 +89,8 @@ class _DashboardState extends State<Dashboard> {
                 : Container(
                     margin: const EdgeInsets.only(right: 16),
                     child: ClassCard(
-                      className: classrooms![i - 1].name as String,
-                      classThumbnail: classrooms![i - 1].bannerImage as String,
+                      className: classrooms[i - 1].name as String,
+                      classThumbnail: classrooms[i - 1].bannerImage as String,
                       onTap: () {
                         Navigator.push(
                             context,
