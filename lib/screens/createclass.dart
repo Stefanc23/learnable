@@ -7,7 +7,8 @@ import 'package:learnable/widgets/loading_overlay.dart';
 
 class CreateClass extends StatefulWidget {
   final Function() updateUserDetails;
-  CreateClass({Key? key, required this.updateUserDetails}) : super(key: key);
+  const CreateClass({Key? key, required this.updateUserDetails})
+      : super(key: key);
 
   @override
   State<CreateClass> createState() => _CreateClassState();
@@ -77,7 +78,7 @@ class _CreateClassState extends State<CreateClass> {
                     ],
                   )),
               Padding(
-                  padding: EdgeInsets.only(left: 16, top: 8, right: 16),
+                  padding: const EdgeInsets.only(left: 16, top: 8, right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -92,8 +93,8 @@ class _CreateClassState extends State<CreateClass> {
                                               widget.updateUserDetails,
                                         )));
                           },
-                          child: Text('JOIN CLASS')),
-                      SizedBox(width: 16),
+                          child: const Text('JOIN CLASS')),
+                      const SizedBox(width: 16),
                       ElevatedButton(
                           onPressed: _createOnTap,
                           child: const Text('CREATE CLASS'))

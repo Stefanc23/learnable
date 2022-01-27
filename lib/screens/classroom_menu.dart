@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:learnable/constants.dart';
 import 'package:learnable/models/api_response.dart';
 import 'package:learnable/models/classroom.dart';
 import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/assignment.dart';
 import 'package:learnable/screens/material.dart';
 import 'package:learnable/services/classroom_service.dart';
+import 'package:learnable/widgets/attendee_avatar.dart';
+import 'package:learnable/widgets/menu_card.dart';
 
 class ClassroomMenu extends StatefulWidget {
   final User user;
@@ -112,8 +113,8 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
                         onPressed: () {
                           // Respond to button press
                         },
-                        icon:
-                            Icon(Icons.add, size: 18, color: Color(0xFF000000)),
+                        icon: const Icon(Icons.add,
+                            size: 18, color: Color(0xFF000000)),
                         label: Text('Invite',
                             style: Theme.of(context).textTheme.button),
                       )
@@ -133,27 +134,7 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
-                                  CircleAvatar(
-                                    radius: 24,
-                                    backgroundImage:
-                                        attendees[i - 1].profileImage == ''
-                                            ? const AssetImage(
-                                                'assets/icons/icon-avatar.png')
-                                            : null,
-                                    child: attendees[i - 1].profileImage != ''
-                                        ? Container(
-                                            width: double.infinity,
-                                            height: double.infinity,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                  fit: BoxFit.fill,
-                                                  image: NetworkImage(
-                                                      '$baseURL/${attendees[i - 1].profileImage}')),
-                                            ),
-                                          )
-                                        : null,
-                                  ),
+                                  AttendeeAvatar(attendee: attendees[i - 1]),
                                   const SizedBox(height: 6),
                                   Text('${attendees[i - 1].name}',
                                       style:
@@ -214,41 +195,6 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
               )
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class MenuCard extends StatelessWidget {
-  final icon;
-  final String label;
-  final VoidCallback onTap;
-
-  const MenuCard(
-      {Key? key, required this.icon, required this.label, required this.onTap})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(5.0),
-        ),
-        elevation: 1,
-        child: Column(
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(bottom: 8.0),
-                child: Icon(icon,
-                    size: 96, color: Theme.of(context).primaryColor)),
-            Padding(
-              padding: const EdgeInsets.only(top: 4.0),
-              child: Text(label, style: Theme.of(context).textTheme.subtitle2),
-            ),
-          ],
         ),
       ),
     );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:learnable/constants.dart';
 import 'package:learnable/models/api_response.dart';
+import 'package:learnable/models/classroom.dart';
 import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/classroom_menu.dart';
 import 'package:learnable/screens/createclass.dart';
@@ -8,6 +8,7 @@ import 'package:learnable/screens/profile.dart';
 import 'package:learnable/services/user_service.dart';
 import 'package:learnable/widgets/class_card.dart';
 import 'package:learnable/widgets/todo_card.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class Dashboard extends StatefulWidget {
   final User user;
@@ -23,14 +24,29 @@ class _DashboardState extends State<Dashboard> {
   final TextEditingController passwordController = TextEditingController();
 
   User user;
+  List<Classroom>? classrooms;
+  String profileImageUrl = '';
 
   _DashboardState(this.user);
+
+  void _getProfileImageUrl() async {
+    String url = await firebase_storage.FirebaseStorage.instance
+        .ref(user.profileImage)
+        .getDownloadURL();
+    setState(() {
+      profileImageUrl = url;
+    });
+  }
 
   void _updateUser() async {
     ApiResponse response = await getUserDetail();
     if (response.error == null) {
       setState(() {
         user = response.data as User;
+      });
+      if (user.profileImage != '') _getProfileImageUrl();
+      setState(() {
+        classrooms = user.classrooms;
       });
     }
   }
@@ -44,12 +60,21 @@ class _DashboardState extends State<Dashboard> {
   }
 
   @override
+  void initState() {
+    if (user.profileImage != '') _getProfileImageUrl();
+    setState(() {
+      classrooms = user.classrooms;
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     var classes = List.generate(
-        user.classrooms!.length + 2,
+        classrooms!.length + 2,
         (i) => i == 0
             ? const SizedBox(width: 36)
-            : i == user.classrooms!.length + 1
+            : i == classrooms!.length + 1
                 ? Container(
                     margin: const EdgeInsets.only(right: 16),
                     child: ClassCard(
@@ -66,9 +91,8 @@ class _DashboardState extends State<Dashboard> {
                 : Container(
                     margin: const EdgeInsets.only(right: 16),
                     child: ClassCard(
-                      className: user.classrooms![i - 1].name as String,
-                      classThumbnail:
-                          user.classrooms![i - 1].bannerImage as String,
+                      className: classrooms![i - 1].name as String,
+                      classThumbnail: classrooms![i - 1].bannerImage as String,
                       onTap: () {
                         Navigator.push(
                             context,
@@ -117,10 +141,10 @@ class _DashboardState extends State<Dashboard> {
                 onTap: _profileOnTap,
                 child: CircleAvatar(
                   radius: 24,
-                  backgroundImage: user.profileImage == ''
+                  backgroundImage: profileImageUrl == ''
                       ? const AssetImage('assets/icons/icon-avatar.png')
                       : null,
-                  child: user.profileImage != ''
+                  child: profileImageUrl != ''
                       ? Container(
                           width: double.infinity,
                           height: double.infinity,
@@ -128,8 +152,7 @@ class _DashboardState extends State<Dashboard> {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 fit: BoxFit.fill,
-                                image: NetworkImage(
-                                    '$baseURL/${user.profileImage}')),
+                                image: NetworkImage(profileImageUrl)),
                           ),
                         )
                       : null,

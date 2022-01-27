@@ -1,8 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.learnable">
+    package="com.learnable.android">
     <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="learnable"
+        android:label="Learnable"
         android:icon="@mipmap/launcher_icon"
         android:usesCleartextTraffic="true"
         android:requestLegacyExternalStorage="true">

@@ -39,6 +39,8 @@ dependencies:
   get_storage: ^2.0.3
   dio: ^4.0.4
   intl: ^0.17.0
+  firebase_core: ^1.11.0
+  firebase_storage: ^10.2.5
 
 dev_dependencies:
   flutter_test:

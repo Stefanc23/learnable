@@ -1,12 +1,12 @@
 // Strings
-const baseURL = 'http://10.0.2.2:8000';
+const baseURL = 'https://learnableapp.herokuapp.com';
 const baseApiURL = baseURL + '/api';
 const baseAuthURL = baseApiURL + '/auth';
 const loginURL = baseAuthURL + '/login';
 const registerURL = baseAuthURL + '/register';
 const logoutURL = baseAuthURL + '/logout';
 const userURL = baseApiURL + '/user';
-const classroomURL = baseApiURL + '/classroom';
+const classroomURL = baseApiURL + '/classrooms';
 
 // Errors
 const serverError = 'Server error.';

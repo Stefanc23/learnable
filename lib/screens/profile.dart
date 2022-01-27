@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:learnable/constants.dart';
 import 'package:learnable/models/api_response.dart';
 import 'package:learnable/models/user.dart';
 import 'package:learnable/screens/splash_screen.dart';
@@ -13,6 +12,7 @@ import 'package:learnable/widgets/custom_text_form_field.dart';
 import 'package:learnable/widgets/loading_overlay.dart';
 import 'package:learnable/widgets/primary_button.dart';
 import 'package:learnable/widgets/tertiary_button.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class Profile extends StatefulWidget {
   final User user;
@@ -33,6 +33,7 @@ class _ProfileState extends State<Profile> {
   late TextEditingController _dobController;
 
   User user;
+  String profileImageUrl = '';
   XFile? imageFile;
 
   bool loading = false;
@@ -40,6 +41,15 @@ class _ProfileState extends State<Profile> {
   String? selectedDOB;
   String? selectedGender;
   var genders = ['Gender', 'Male', 'Female'];
+
+  void _getProfileImageUrl() async {
+    String url = await firebase_storage.FirebaseStorage.instance
+        .ref(user.profileImage)
+        .getDownloadURL();
+    setState(() {
+      profileImageUrl = url;
+    });
+  }
 
   _ProfileState(this.user);
 
@@ -51,6 +61,8 @@ class _ProfileState extends State<Profile> {
     _dobController = TextEditingController(text: user.dob);
     selectedDOB = user.dob;
     selectedGender = user.gender == '' ? 'Gender' : user.gender;
+
+    if (user.profileImage != '') _getProfileImageUrl();
     super.initState();
   }
 
@@ -211,7 +223,9 @@ class _ProfileState extends State<Profile> {
               padding: const EdgeInsets.only(left: 8, right: 16),
               child: GestureDetector(
                   onTap: _editOnTap,
-                  child: Icon(editing ? Icons.check : Icons.edit))),
+                  child: editing
+                      ? Icon(Icons.check, color: Colors.green.shade300)
+                      : const Icon(Icons.edit))),
         ],
         elevation: 0,
       ),
@@ -223,10 +237,10 @@ class _ProfileState extends State<Profile> {
                 padding: const EdgeInsets.only(top: 16),
                 child: CircleAvatar(
                   radius: 48,
-                  backgroundImage: user.profileImage == '' && imageFile == null
+                  backgroundImage: profileImageUrl == '' && imageFile == null
                       ? const AssetImage('assets/icons/icon-avatar.png')
                       : null,
-                  child: user.profileImage != '' || imageFile != null
+                  child: profileImageUrl != '' || imageFile != null
                       ? Container(
                           width: double.infinity,
                           height: double.infinity,
@@ -237,8 +251,7 @@ class _ProfileState extends State<Profile> {
                                 image: imageFile != null
                                     ? FileImage(File(imageFile!.path))
                                         as ImageProvider
-                                    : NetworkImage(
-                                        '$baseURL/${user.profileImage}')),
+                                    : NetworkImage(profileImageUrl)),
                           ),
                         )
                       : null,
@@ -300,7 +313,7 @@ class _ProfileState extends State<Profile> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5)),
+                                    const BorderRadius.all(Radius.circular(5)),
                                 border: editing
                                     ? Border.all(
                                         color: Colors.black, width: 0.75)

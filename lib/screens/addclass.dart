@@ -8,14 +8,13 @@ import 'package:learnable/widgets/loading_overlay.dart';
 class AddClass extends StatefulWidget {
   final Function() updateUserDetails;
 
-  AddClass({Key? key, required this.updateUserDetails}) : super(key: key);
+  const AddClass({Key? key, required this.updateUserDetails}) : super(key: key);
 
   @override
   State<AddClass> createState() => _AddClassState();
 }
 
 class _AddClassState extends State<AddClass> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController classIDController = TextEditingController();
   final TextEditingController inviteCodeController = TextEditingController();
 

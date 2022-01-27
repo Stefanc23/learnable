@@ -27,9 +27,9 @@ class MaterialScreen extends StatelessWidget {
                     .copyWith(color: Colors.white),
               )),
           bottom: PreferredSize(
-            preferredSize: Size.fromHeight(64),
+            preferredSize: const Size.fromHeight(64),
             child: Padding(
-                padding: EdgeInsets.all(16),
+                padding: const EdgeInsets.all(16),
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: SizedBox(
@@ -55,12 +55,12 @@ class MaterialScreen extends StatelessWidget {
                 Align(
                     alignment: Alignment.centerRight,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: TextButton.icon(
                           onPressed: () {
                             // Respond to button press
                           },
-                          icon: Icon(Icons.add,
+                          icon: const Icon(Icons.add,
                               size: 18, color: Color(0xFF000000)),
                           label: Text('Add New Material',
                               style: Theme.of(context).textTheme.button),
@@ -68,7 +68,7 @@ class MaterialScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 Expanded(
                     child: ListView(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   children: [
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),

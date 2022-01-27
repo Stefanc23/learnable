@@ -34,10 +34,10 @@ class MaterialCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Row(children: [
-                  const Icon(Icons.download_sharp,
+                Row(children: const [
+                  Icon(Icons.download_sharp,
                       color: Color(0xFF1F3C88), size: 24),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4),
                 ]),
               ],
             ),

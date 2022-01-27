@@ -48,13 +48,9 @@ Future<ApiResponse> joinClass(String id, String inviteCode) async {
   try {
     String token = getToken();
     var dio = Dio();
-    var formData = FormData.fromMap({
-      'classroom_id': id,
-      'invite_code': inviteCode,
-    });
     dio.options.headers['Accept'] = 'application/json';
     dio.options.headers['Authorization'] = 'Bearer $token';
-    final response = await dio.post('$classroomURL/join', data: formData);
+    final response = await dio.get('$classroomURL/join/$id/$inviteCode');
 
     switch (response.statusCode) {
       case 200:
@@ -78,12 +74,9 @@ Future<ApiResponse> getAttendees(String classroomId) async {
   try {
     String token = getToken();
     var dio = Dio();
-    var formData = FormData.fromMap({
-      'id': classroomId,
-    });
     dio.options.headers['Accept'] = 'application/json';
     dio.options.headers['Authorization'] = 'Bearer $token';
-    final response = await dio.post('$classroomURL/attendees', data: formData);
+    final response = await dio.get('$classroomURL/$classroomId/attendees');
 
     switch (response.statusCode) {
       case 200:
