@@ -1,4 +1,6 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
 
 class AddAssignment extends StatefulWidget {
@@ -10,9 +12,39 @@ class AddAssignment extends StatefulWidget {
 
 class _AddAssignmentState extends State<AddAssignment> {
   final TextEditingController titleAssignController = TextEditingController();
+  late TextEditingController deadlineController;
+
+  bool editing = false;
+  String? selecteddeadline;
+
+  @override
+  void initState() {
+    deadlineController = TextEditingController();
+    selecteddeadline = 'text';
+  }
 
   void _backOnTap() {
     Navigator.pop(context);
+  }
+
+  _selectDate(BuildContext context) async {
+    if (editing) {
+      final DateTime? picked = await showDatePicker(
+        context: context,
+        initialDate: selecteddeadline == ''
+            ? DateTime.now()
+            : DateTime.parse(selecteddeadline as String),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now(),
+        helpText: 'Assignment Deadlin',
+      );
+      if (picked != null) {
+        setState(() {
+          selecteddeadline = DateFormat('yyyy-MM-dd').format(picked);
+          deadlineController = TextEditingController(text: selecteddeadline);
+        });
+      }
+    }
   }
 
   @override
@@ -43,9 +75,30 @@ class _AddAssignmentState extends State<AddAssignment> {
                             hintText: 'Assignment Title')),
                     const SizedBox(height: 16),
                     Card(
-                        child: GestureDetector(
-                            onTap: () {}, //Deadline Date Picker?
-                            child: Container())),
+                      child: GestureDetector(
+                        onTap: () {
+                          _selectDate(context);
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(5)),
+                            border: editing
+                                ? Border.all(color: Colors.black, width: 0.75)
+                                : null,
+                          ),
+                          child: CustomTextFormField(
+                            controller: deadlineController,
+                            hintText: 'Assignment Deadline',
+                            enabled: false,
+                            suffixIcon: Icon(Icons.date_range,
+                                color: editing
+                                    ? Theme.of(context).primaryColor
+                                    : null),
+                          ),
+                        ),
+                      ),
+                    ),
                     const SizedBox(height: 16),
                     OutlinedButton.icon(
                       onPressed: () {
