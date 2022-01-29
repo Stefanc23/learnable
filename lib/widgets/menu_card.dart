@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 
 class MenuCard extends StatelessWidget {
-  final IconData icon;
+  final dynamic icon;
   final String label;
   final VoidCallback onTap;
+  final bool comingSoon;
 
   const MenuCard(
-      {Key? key, required this.icon, required this.label, required this.onTap})
+      {Key? key,
+      required this.icon,
+      required this.label,
+      required this.onTap,
+      this.comingSoon = false})
       : super(key: key);
 
   @override
@@ -23,7 +28,10 @@ class MenuCard extends StatelessWidget {
             Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Icon(icon,
-                    size: 96, color: Theme.of(context).primaryColor)),
+                    size: 96,
+                    color: !comingSoon
+                        ? Theme.of(context).primaryColor
+                        : Colors.grey)),
             Padding(
               padding: const EdgeInsets.only(top: 4.0),
               child: Text(label, style: Theme.of(context).textTheme.subtitle2),

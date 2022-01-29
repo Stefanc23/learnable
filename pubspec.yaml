@@ -42,6 +42,8 @@ dependencies:
   firebase_core: ^1.11.0
   firebase_storage: ^10.2.5
   dotted_border: ^2.0.0+2
+  path_provider: ^2.0.8
+  file_picker: ^3.0.4
 
 dev_dependencies:
   flutter_test:

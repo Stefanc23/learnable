@@ -22,6 +22,7 @@ class ClassroomMenu extends StatefulWidget {
 class _ClassroomMenuState extends State<ClassroomMenu> {
   User user;
   Classroom classroom;
+  bool loading = true;
 
   _ClassroomMenuState(this.user, this.classroom);
 
@@ -37,6 +38,9 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text('${response.error}')));
     }
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
@@ -95,108 +99,129 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
           backgroundColor: Theme.of(context).primaryColor,
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(top: 72 - MediaQuery.of(context).padding.top),
-        child: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('People',
-                          style: Theme.of(context).textTheme.overline),
-                      TextButton.icon(
-                        onPressed: () {
-                          // Respond to button press
-                        },
-                        icon: const Icon(Icons.add,
-                            size: 18, color: Color(0xFF000000)),
-                        label: Text('Invite',
-                            style: Theme.of(context).textTheme.button),
-                      )
-                    ]),
-              ),
-              const SizedBox(height: 17),
-              SizedBox(
-                height: 92,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: List.generate(
-                      attendees.length + 1,
-                      (i) => i == 0
-                          ? const SizedBox(width: 36)
-                          : Container(
-                              margin: const EdgeInsets.only(right: 24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  AttendeeAvatar(attendee: attendees[i - 1]),
-                                  const SizedBox(height: 6),
-                                  Text('${attendees[i - 1].name}',
-                                      style:
-                                          Theme.of(context).textTheme.caption),
-                                  const SizedBox(height: 4),
-                                  Text('${attendees[i - 1].role}',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .overline!
-                                          .copyWith(
-                                              fontWeight: FontWeight.w300)),
-                                ],
-                              ),
-                            )),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding:
+                  EdgeInsets.only(top: 72 - MediaQuery.of(context).padding.top),
+              child: SizedBox(
+                height: double.infinity,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 24),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('People',
+                                style: Theme.of(context).textTheme.overline),
+                            TextButton.icon(
+                              onPressed: () {
+                                // Respond to button press
+                              },
+                              icon: const Icon(Icons.add,
+                                  size: 18, color: Color(0xFF000000)),
+                              label: Text('Invite',
+                                  style: Theme.of(context).textTheme.button),
+                            )
+                          ]),
+                    ),
+                    const SizedBox(height: 17),
+                    SizedBox(
+                      height: 92,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: List.generate(
+                            attendees.length + 1,
+                            (i) => i == 0
+                                ? const SizedBox(width: 36)
+                                : Container(
+                                    margin: const EdgeInsets.only(right: 24),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        AttendeeAvatar(
+                                            attendee: attendees[i - 1]),
+                                        const SizedBox(height: 6),
+                                        Text('${attendees[i - 1].name}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .caption),
+                                        const SizedBox(height: 4),
+                                        Text('${attendees[i - 1].role}',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .overline!
+                                                .copyWith(
+                                                    fontWeight:
+                                                        FontWeight.w300)),
+                                      ],
+                                    ),
+                                  )),
+                      ),
+                    ),
+                    Expanded(
+                      child: SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: GridView.count(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 32,
+                          mainAxisSpacing: 24,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 36, vertical: 25),
+                          children: [
+                            MenuCard(
+                                icon: Icons.backpack,
+                                label: 'Assignment',
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => Assignment(
+                                              className:
+                                                  classroom.name as String)));
+                                }),
+                            MenuCard(
+                                icon: Icons.library_books,
+                                label: 'Materials',
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MaterialScreen(
+                                              classroom: classroom)));
+                                }),
+                            MenuCard(
+                                icon: Icons.voice_chat,
+                                label: 'Meet',
+                                onTap: () {},
+                                comingSoon: true),
+                            MenuCard(
+                                icon: Icons.quiz,
+                                label: 'Quiz',
+                                onTap: () {},
+                                comingSoon: true),
+                            MenuCard(
+                                icon: Icons.menu_book,
+                                label: 'Exam',
+                                onTap: () {},
+                                comingSoon: true),
+                            MenuCard(
+                                icon: Icons.message,
+                                label: 'Forum',
+                                onTap: () {},
+                                comingSoon: true),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
                 ),
               ),
-              Expanded(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: double.infinity,
-                  child: GridView.count(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 32,
-                    mainAxisSpacing: 24,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 36, vertical: 25),
-                    children: [
-                      MenuCard(
-                          icon: Icons.backpack,
-                          label: 'Assignment',
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => Assignment(
-                                        className: classroom.name as String)));
-                          }),
-                      MenuCard(
-                          icon: Icons.voice_chat, label: 'Meet', onTap: () {}),
-                      MenuCard(icon: Icons.quiz, label: 'Quiz', onTap: () {}),
-                      MenuCard(
-                          icon: Icons.menu_book, label: 'Exam', onTap: () {}),
-                      MenuCard(
-                          icon: Icons.library_books,
-                          label: 'Materials',
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MaterialScreen(
-                                        className: classroom.name as String)));
-                          }),
-                      MenuCard(
-                          icon: Icons.message, label: 'Forum', onTap: () {}),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

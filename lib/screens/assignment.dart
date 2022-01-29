@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/screens/add_assignment.dart';
 import 'package:learnable/widgets/assign_card.dart';
 
 class Assignment extends StatelessWidget {
@@ -57,7 +58,10 @@ class Assignment extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: TextButton.icon(
                           onPressed: () {
-                            // Respond to button press
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => AddAssignment()));
                           },
                           icon: const Icon(Icons.add,
                               size: 18, color: Color(0xFF000000)),

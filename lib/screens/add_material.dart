@@ -1,17 +1,67 @@
-import 'package:flutter/material.dart';
-import 'package:learnable/widgets/custom_text_form_field.dart';
+import 'dart:io';
 
-class addMaterial extends StatefulWidget {
-  addMaterial({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:learnable/models/api_response.dart';
+import 'package:learnable/services/material_service.dart';
+import 'package:learnable/widgets/custom_text_form_field.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:learnable/widgets/loading_overlay.dart';
+
+class AddMaterial extends StatefulWidget {
+  final String classroomId;
+  final dynamic onSubmit;
+
+  const AddMaterial(
+      {Key? key, required this.classroomId, required this.onSubmit})
+      : super(key: key);
 
   @override
-  State<addMaterial> createState() => _addMaterialState();
+  State<AddMaterial> createState() => _AddMaterialState();
 }
 
-class _addMaterialState extends State<addMaterial> {
+class _AddMaterialState extends State<AddMaterial> {
   final TextEditingController titleMaterialController = TextEditingController();
+  PlatformFile? materialFile;
+  bool loading = false;
 
-  bool editing = false;
+  void _backOnTap() {
+    Navigator.pop(context);
+  }
+
+  void _pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      PlatformFile file = result.files.first;
+
+      setState(() {
+        materialFile = file;
+      });
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  void _addMaterial() async {
+    if (titleMaterialController.text != '' && materialFile != null) {
+      setState(() {
+        loading = !loading;
+      });
+      ApiResponse response = await addMaterial(
+          widget.classroomId, titleMaterialController.text, materialFile!);
+      setState(() {
+        loading = !loading;
+      });
+      if (response.error == null) {
+        widget.onSubmit();
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('Material added.')));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('${response.error}')));
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +69,7 @@ class _addMaterialState extends State<addMaterial> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: GestureDetector(
-            onTap: () {}, child: const Icon(Icons.arrow_back_sharp)),
+            onTap: _backOnTap, child: const Icon(Icons.arrow_back_sharp)),
         title: const Center(child: Text("Add New Material")),
         centerTitle: true,
         actions: const [SizedBox(width: 48)],
@@ -41,15 +91,15 @@ class _addMaterialState extends State<addMaterial> {
                             hintText: 'Material Title')),
                     const SizedBox(height: 16),
                     OutlinedButton.icon(
-                      onPressed: () {
-                        // Respond to button press
-                      },
-                      icon: Icon(Icons.add, size: 18, color: Color(0xFF000000)),
+                      onPressed: _pickFile,
+                      icon: const Icon(Icons.add,
+                          size: 18, color: Color(0xFF000000)),
                       label: Text('Choose File',
                           style: Theme.of(context).textTheme.button),
                     ),
                     const SizedBox(height: 16),
-                    Text('File Name',
+                    Text(
+                        materialFile == null ? 'File Name' : materialFile!.name,
                         style: Theme.of(context).textTheme.bodyText1),
                     const SizedBox(height: 24),
                     Row(
@@ -57,12 +107,14 @@ class _addMaterialState extends State<addMaterial> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                            onPressed: () {}, child: const Text('SUBMIT'))
+                            onPressed: _addMaterial,
+                            child: const Text('SUBMIT'))
                       ],
                     )
                   ],
                 )),
-          ]))
+          ])),
+          if (loading) const LoadingOverlay()
         ],
       ),
     );

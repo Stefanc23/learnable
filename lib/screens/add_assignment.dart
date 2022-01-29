@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
 
-class addAssignment extends StatefulWidget {
-  addAssignment({Key? key}) : super(key: key);
+class AddAssignment extends StatefulWidget {
+  AddAssignment({Key? key}) : super(key: key);
 
   @override
-  State<addAssignment> createState() => _addAssignmentState();
+  State<AddAssignment> createState() => _AddAssignmentState();
 }
 
-class _addAssignmentState extends State<addAssignment> {
+class _AddAssignmentState extends State<AddAssignment> {
   final TextEditingController titleAssignController = TextEditingController();
 
-  bool editing = false;
+  void _backOnTap() {
+    Navigator.pop(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,7 @@ class _addAssignmentState extends State<addAssignment> {
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: GestureDetector(
-            onTap: () {}, child: const Icon(Icons.arrow_back_sharp)),
+            onTap: _backOnTap, child: const Icon(Icons.arrow_back_sharp)),
         title: const Center(child: Text("Add New Assignment")),
         centerTitle: true,
         actions: const [SizedBox(width: 48)],
