@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:learnable/models/classroom.dart';
 import 'package:learnable/screens/add_assignment.dart';
 import 'package:learnable/widgets/assign_card.dart';
 
-class Assignment extends StatelessWidget {
-  final String className;
-  const Assignment({Key? key, required this.className}) : super(key: key);
+class Assignment extends StatefulWidget {
+  final Classroom classroom;
+  const Assignment({Key? key, required this.classroom}) : super(key: key);
 
+  @override
+  State<Assignment> createState() => _AssignmentState();
+}
+
+class _AssignmentState extends State<Assignment> {
   @override
   Widget build(BuildContext context) {
     void _backOnTap() {
@@ -20,7 +26,7 @@ class Assignment extends StatelessWidget {
           title: Align(
               alignment: Alignment.topRight,
               child: Text(
-                className,
+                widget.classroom.name as String,
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1!
@@ -75,35 +81,40 @@ class Assignment extends StatelessWidget {
                   children: [
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      child: const AssignCard(
+                      child: AssignCard(
+                        userRole: widget.classroom.role as String,
                         assignName: 'Tugas 1',
                         duedatetime: '21 October 2021 (23.59)',
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      child: const AssignCard(
+                      child: AssignCard(
+                        userRole: widget.classroom.role as String,
                         assignName: 'Tugas 1',
                         duedatetime: '21 October 2021 (23.59)',
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      child: const AssignCard(
+                      child: AssignCard(
+                        userRole: widget.classroom.role as String,
                         assignName: 'Tugas 1',
                         duedatetime: '21 October 2021 (23.59)',
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      child: const AssignCard(
+                      child: AssignCard(
+                        userRole: widget.classroom.role as String,
                         assignName: 'Tugas 1',
                         duedatetime: '21 October 2021 (23.59)',
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
-                      child: const AssignCard(
+                      child: AssignCard(
+                        userRole: widget.classroom.role as String,
                         assignName: 'Tugas 1',
                         duedatetime: '21 October 2021 (23.59)',
                       ),

@@ -1,15 +1,22 @@
 import 'package:flutter/material.dart';
 
-class AssignCard extends StatelessWidget {
+class AssignCard extends StatefulWidget {
+  final String userRole;
   final String assignName;
   final String duedatetime;
 
   const AssignCard({
     Key? key,
+    required this.userRole,
     required this.assignName,
     required this.duedatetime,
   }) : super(key: key);
 
+  @override
+  State<AssignCard> createState() => _AssignCardState();
+}
+
+class _AssignCardState extends State<AssignCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -31,22 +38,33 @@ class AssignCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      assignName,
+                      widget.assignName,
                       style: Theme.of(context).textTheme.subtitle1!,
                     ),
                     Text(
-                      duedatetime,
+                      widget.duedatetime,
                       style: Theme.of(context).textTheme.caption!,
                     ),
                   ],
                 ),
-                Row(children: const [
-                  Icon(Icons.history_sharp, color: Color(0xFF1F3C88), size: 24),
-                  SizedBox(width: 16),
-                  Icon(Icons.download_sharp,
+                Row(children: [
+                  const Icon(Icons.download_sharp,
                       color: Color(0xFF1F3C88), size: 24),
-                  SizedBox(width: 16),
-                  Icon(Icons.upload_sharp, color: Color(0xFF1F3C88), size: 24),
+                  const SizedBox(width: 16),
+                  widget.userRole == 'Instructor'
+                      ? Row(children: const [
+                          Icon(Icons.text_snippet,
+                              color: Color(0xFF1F3C88), size: 24),
+                          SizedBox(width: 16),
+                          Icon(Icons.delete, color: Colors.red, size: 24),
+                        ])
+                      : Row(children: const [
+                          Icon(Icons.upload_sharp,
+                              color: Color(0xFF1F3C88), size: 24),
+                          SizedBox(width: 16),
+                          Icon(Icons.history_sharp,
+                              color: Color(0xFF1F3C88), size: 24),
+                        ]),
                   SizedBox(width: 4),
                 ]),
               ],

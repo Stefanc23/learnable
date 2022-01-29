@@ -181,8 +181,7 @@ class _ClassroomMenuState extends State<ClassroomMenu> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) => Assignment(
-                                              className:
-                                                  classroom.name as String)));
+                                              classroom: classroom)));
                                 }),
                             MenuCard(
                                 icon: Icons.library_books,
