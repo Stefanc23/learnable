@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:learnable/screens/add_assignment.dart';
 import 'package:learnable/screens/splash_screen.dart';
 import 'package:learnable/utils/learnable_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -23,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Learnable',
       theme: learnableTheme,
-      home: AddAssignment(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

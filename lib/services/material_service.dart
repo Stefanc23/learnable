@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:learnable/constants.dart';
@@ -40,8 +38,7 @@ Future<ApiResponse> getMaterials(String classroomId) async {
         apiResponse.error = somethingWentWrong;
         break;
     }
-  } catch (e, stacktrace) {
-    print(stacktrace.toString());
+  } catch (e) {
     apiResponse.error = serverError;
   }
 
@@ -109,8 +106,7 @@ Future<ApiResponse> deleteMaterial(String materialId) async {
         apiResponse.error = somethingWentWrong;
         break;
     }
-  } catch (e, stacktrace) {
-    print(stacktrace.toString());
+  } catch (e) {
     apiResponse.error = serverError;
   }
 

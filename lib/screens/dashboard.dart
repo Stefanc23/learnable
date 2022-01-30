@@ -206,24 +206,8 @@ class _DashboardState extends State<Dashboard> {
                               margin: const EdgeInsets.only(bottom: 16),
                               child: const TodoCard(
                                 type: 'Assignment',
-                                className: 'Class Name',
-                                datetime: '21 October 2021 (23.59)',
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 16),
-                              child: const TodoCard(
-                                type: 'Meet',
-                                className: 'Class Name',
-                                datetime: '23 October 2021 (14.00)',
-                              ),
-                            ),
-                            Container(
-                              margin: const EdgeInsets.only(bottom: 16),
-                              child: const TodoCard(
-                                type: 'Quiz',
-                                className: 'Class Name',
-                                datetime: '23 October 2021 (23.59)',
+                                className: 'App Dev',
+                                datetime: '31 January 2022 (23.59)',
                               ),
                             ),
                           ],

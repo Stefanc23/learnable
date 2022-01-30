@@ -100,25 +100,26 @@ class _MaterialScreenState extends State<MaterialScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 12),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: TextButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddMaterial(
-                                        classroomId:
-                                            widget.classroom.id as String,
-                                        onSubmit: _getMaterials)));
-                          },
-                          icon: const Icon(Icons.add,
-                              size: 18, color: Color(0xFF000000)),
-                          label: Text('Add New Material',
-                              style: Theme.of(context).textTheme.button),
-                        ))),
+                if (widget.classroom.role == 'Instructor')
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => AddMaterial(
+                                          classroomId:
+                                              widget.classroom.id as String,
+                                          onSubmit: _getMaterials)));
+                            },
+                            icon: const Icon(Icons.add,
+                                size: 18, color: Color(0xFF000000)),
+                            label: Text('Add New Material',
+                                style: Theme.of(context).textTheme.button),
+                          ))),
                 const SizedBox(height: 8),
                 Expanded(
                   child: Padding(

@@ -58,22 +58,24 @@ class _AssignmentState extends State<Assignment> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 12),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: TextButton.icon(
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => AddAssignment()));
-                          },
-                          icon: const Icon(Icons.add,
-                              size: 18, color: Color(0xFF000000)),
-                          label: Text('Create New',
-                              style: Theme.of(context).textTheme.button),
-                        ))),
+                if (widget.classroom.role == 'Instructor')
+                  Align(
+                      alignment: Alignment.centerRight,
+                      child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16),
+                          child: TextButton.icon(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          const AddAssignment()));
+                            },
+                            icon: const Icon(Icons.add,
+                                size: 18, color: Color(0xFF000000)),
+                            label: Text('Create New',
+                                style: Theme.of(context).textTheme.button),
+                          ))),
                 const SizedBox(height: 8),
                 Expanded(
                     child: ListView(
@@ -83,40 +85,17 @@ class _AssignmentState extends State<Assignment> {
                       margin: const EdgeInsets.only(bottom: 8),
                       child: AssignCard(
                         userRole: widget.classroom.role as String,
-                        assignName: 'Tugas 1',
-                        duedatetime: '21 October 2021 (23.59)',
+                        assignName: 'Test Exercise',
+                        duedatetime: '31 January 2022 (23.59)',
                       ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(bottom: 8),
                       child: AssignCard(
                         userRole: widget.classroom.role as String,
-                        assignName: 'Tugas 1',
-                        duedatetime: '21 October 2021 (23.59)',
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: AssignCard(
-                        userRole: widget.classroom.role as String,
-                        assignName: 'Tugas 1',
-                        duedatetime: '21 October 2021 (23.59)',
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: AssignCard(
-                        userRole: widget.classroom.role as String,
-                        assignName: 'Tugas 1',
-                        duedatetime: '21 October 2021 (23.59)',
-                      ),
-                    ),
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 8),
-                      child: AssignCard(
-                        userRole: widget.classroom.role as String,
-                        assignName: 'Tugas 1',
-                        duedatetime: '21 October 2021 (23.59)',
+                        assignName: 'Basic Kotlin Assignment',
+                        duedatetime: '29 January 2022 (23.59)',
+                        pastDeadline: true,
                       ),
                     ),
                   ],

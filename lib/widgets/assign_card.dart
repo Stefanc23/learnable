@@ -4,13 +4,15 @@ class AssignCard extends StatefulWidget {
   final String userRole;
   final String assignName;
   final String duedatetime;
+  final bool pastDeadline;
 
-  const AssignCard({
-    Key? key,
-    required this.userRole,
-    required this.assignName,
-    required this.duedatetime,
-  }) : super(key: key);
+  const AssignCard(
+      {Key? key,
+      required this.userRole,
+      required this.assignName,
+      required this.duedatetime,
+      this.pastDeadline = false})
+      : super(key: key);
 
   @override
   State<AssignCard> createState() => _AssignCardState();
@@ -58,14 +60,15 @@ class _AssignCardState extends State<AssignCard> {
                           SizedBox(width: 16),
                           Icon(Icons.delete, color: Colors.red, size: 24),
                         ])
-                      : Row(children: const [
-                          Icon(Icons.upload_sharp,
-                              color: Color(0xFF1F3C88), size: 24),
-                          SizedBox(width: 16),
-                          Icon(Icons.history_sharp,
+                      : Row(children: [
+                          if (!widget.pastDeadline)
+                            const Icon(Icons.upload_sharp,
+                                color: Color(0xFF1F3C88), size: 24),
+                          if (!widget.pastDeadline) const SizedBox(width: 16),
+                          const Icon(Icons.history_sharp,
                               color: Color(0xFF1F3C88), size: 24),
                         ]),
-                  SizedBox(width: 4),
+                  const SizedBox(width: 4),
                 ]),
               ],
             ),

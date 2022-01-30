@@ -1,10 +1,9 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:learnable/widgets/custom_text_form_field.dart';
 
 class AddAssignment extends StatefulWidget {
-  AddAssignment({Key? key}) : super(key: key);
+  const AddAssignment({Key? key}) : super(key: key);
 
   @override
   State<AddAssignment> createState() => _AddAssignmentState();
@@ -21,6 +20,7 @@ class _AddAssignmentState extends State<AddAssignment> {
   void initState() {
     deadlineController = TextEditingController();
     selecteddeadline = 'text';
+    super.initState();
   }
 
   void _backOnTap() {
